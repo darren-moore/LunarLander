@@ -4,6 +4,11 @@
 
 using namespace std;
 
+// Window resize callback for dynamic viewport
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
+
+
 int main(){
 
 	// Init and setup GLFW
@@ -20,20 +25,23 @@ int main(){
 		return -1;
 	}
 
+	glfwMakeContextCurrent(window);
+
 	// Init GLAD
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); {
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		cout << "Error: GLAD initialization failed" << endl;
 		return -1;
 	}
 
-
 	glViewport(0, 0, 800, 600);
-
-	// Window resize callback for dynamic viewport
-	void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	while (!glfwWindowShouldClose(window)) {
+		processInput(window);
+
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		glfwSwapBuffers(window); // double buffer!
 		glfwPollEvents();
 	}
@@ -45,4 +53,11 @@ int main(){
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow *window) {
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, true);
+	}
+
 }
