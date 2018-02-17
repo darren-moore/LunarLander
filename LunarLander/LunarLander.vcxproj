@@ -72,7 +72,7 @@
     <IncludePath>C:\Users\mooda\Documents\glad\include;C:\Users\mooda\Documents\glm-0.9.9-a2;C:\Users\mooda\Documents\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\mooda\Documents\glad\include;C:\Users\mooda\Documents\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\mooda\Documents\glad\include;C:\Users\mooda\Documents\glm-0.9.9-a2;C:\Users\mooda\Documents\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,10 +127,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\glad\src\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fragShader.frag" />
     <None Include="vertShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
