@@ -10,14 +10,20 @@
 #include <sstream>
 #include <fstream>
 
+#include "stb_image.h"
 #include "Shader.h"
+#include "Game.h"
 
 using namespace std;
 
 // Window resize callback for dynamic viewport
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
+const GLuint SCREEN_WIDTH = 800;
+const GLuint SCREEN_HEIGHT = 600;
+
+Game lunarLander(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 int main(){
 
@@ -45,57 +51,52 @@ int main(){
 
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetKeyCallback(window, key_callback);
 	
 	// Window is now set up.
 	
-	// Compile and link shaders
-	Shader shader("vertShader.vert", "fragShader.frag");
 
-	float vertices[] = {
-		// positions         // colors
-		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-		0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
-	};
+	//// Load image
+	//int width, height, nrChannels;
+	//unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
 
-	// Vertex array object
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	//GLuint texture;
+	//glGenTextures(1, &texture);
+	//glBindTexture(GL_TEXTURE_2D, texture);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//
+	//if (data) {
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	//	glGenerateMipmap(GL_TEXTURE_2D);
+	//}
+	//else {
+	//	cout << "Error: Texture file read failed." << endl;
+	//}
 
-	// Vertex buffer object
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3*sizeof(float)));
-	glEnableVertexAttribArray(1);
+	//stbi_image_free(data);
+	//shader.setInt("theTexture", 0);
 
 	
+	lunarLander.init();
+
+	GLfloat dt = 0;
+	GLfloat lastFrameTime = 0;
+
 	while (!glfwWindowShouldClose(window)) {
-		processInput(window);
+		GLfloat currentFrameTime = glfwGetTime();
+		dt = currentFrameTime - lastFrameTime;
+		lastFrameTime = currentFrameTime;
+		glfwPollEvents();
+
+		lunarLander.processInput(dt);
+		lunarLander.update(dt);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		shader.use();
-
-		glm::mat4 transform = glm::mat4(1.0f);
-		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0, 1.0, 0.0));
-
-		// Set shader uniforms
-		float timeValue = glfwGetTime();
-		float greenValue = (sin(timeValue) / 2.0f) + .5f;
-		shader.setFloat("gv", greenValue);
-		shader.setMat4("transform", transform);
-		
-		// Render stuff
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		lunarLander.render();
 
 		glfwSwapBuffers(window); // double buffer!
 		glfwPollEvents();
@@ -110,9 +111,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow *window) {
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
+	}
+	if (key >= 0 && key < 1024) {
+		if (action == GLFW_PRESS)
+			lunarLander.keys[key] = GL_TRUE;
+		else if (action == GLFW_RELEASE)
+			lunarLander.keys[key] = GL_FALSE;
 	}
 
 }
