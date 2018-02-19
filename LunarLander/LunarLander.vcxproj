@@ -69,10 +69,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\mooda\Documents\glad\include;C:\Users\mooda\Documents\glm-0.9.9-a2;C:\Users\mooda\Documents\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\mooda\Documents\Visual Studio 2015\Projects\LunarLander\LunarLander\headers;C:\Users\mooda\Documents\glad\include;C:\Users\mooda\Documents\glm-0.9.9-a2;C:\Users\mooda\Documents\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\mooda\Documents\glad\include;C:\Users\mooda\Documents\glm-0.9.9-a2;C:\Users\mooda\Documents\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\mooda\Documents\Visual Studio 2015\Projects\LunarLander\LunarLander\headers;C:\Users\mooda\Documents\glad\include;C:\Users\mooda\Documents\glm-0.9.9-a2;C:\Users\mooda\Documents\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -141,15 +141,15 @@
     <None Include="vertShader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Lander.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="SpriteRenderer.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Terrain.h" />
-    <ClInclude Include="TerrainRenderer.h" />
+    <ClInclude Include="headers\Game.h" />
+    <ClInclude Include="headers\GameObject.h" />
+    <ClInclude Include="headers\Lander.h" />
+    <ClInclude Include="headers\Renderer.h" />
+    <ClInclude Include="headers\Shader.h" />
+    <ClInclude Include="headers\SpriteRenderer.h" />
+    <ClInclude Include="headers\stb_image.h" />
+    <ClInclude Include="headers\Terrain.h" />
+    <ClInclude Include="headers\TerrainRenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
