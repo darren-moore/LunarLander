@@ -9,18 +9,24 @@ Lander::Lander(SpriteRenderer *renderer, glm::vec2 position)
 
 void Lander::update(GLfloat dt, GLboolean* keys) {
 
-
+	// Integrate
 	velocity += acceleration * vec2(dt);
-	position += velocity * vec2(dt);
+	vec2 velocityFlipped = vec2(velocity.x, -velocity.y); // Since "up" in screenspace is smaller values
+	position += velocityFlipped * vec2(dt);
 
-	acceleration = vec2(0.0f, 0.5f);
+	// Gravity
+	acceleration = vec2(0.0f, -10.0f);
 
 	if (keys[GLFW_KEY_W]) {
+		// Must rotate thrust to be in direction of thrusters
 		mat4 rotMatrix = mat4(1.0);
-		rotMatrix = glm::rotate(rotMatrix, rotation, vec3(0.0f, 0.0f, 1.0f));
-		vec2 transformedAccel = rotMatrix * vec4(0.0f, 1.0f, 0.0f, 0.0f);
-		acceleration.x -= transformedAccel.x;
-		acceleration.y -= transformedAccel.y;
+		rotMatrix = glm::rotate(rotMatrix, -rotation, vec3(0.0f, 0.0f, 1.0f));
+
+		vec2 transformedThrust = rotMatrix * vec4(0.0f, 20.0f, 0.0f, 0.0f);
+
+		// And assume mass is 1...
+		acceleration.x += transformedThrust.x;
+		acceleration.y += transformedThrust.y;
 	}
 	if (keys[GLFW_KEY_A]) {
 		rotation -= dt;

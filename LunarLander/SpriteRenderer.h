@@ -3,18 +3,17 @@
 
 #include <glad/glad.h>
 
-#include "Shader.h"
+#include "Renderer.h"
 
 
-class SpriteRenderer {
+class SpriteRenderer : public Renderer {
 public:
 	SpriteRenderer(Shader &shader);
 
-	void drawSprite(glm::vec2 position, glm::vec2 size = glm::vec2(1, 1), GLfloat rotation = 0.0f);
+	void draw(glm::vec2 position, glm::vec2 size = glm::vec2(1, 1), GLfloat rotation = 0.0f);
 
 private:
 	Shader shader;
-	GLuint quadVAO;
 
 	void initRenderData();
 };

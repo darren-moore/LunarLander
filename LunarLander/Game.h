@@ -1,3 +1,4 @@
+
 #ifndef GAME_H
 #define GAME_H
 
@@ -8,6 +9,9 @@
 
 #include "GameObject.h"
 #include "Lander.h"
+#include "Terrain.h"
+#include "SpriteRenderer.h"
+#include "TerrainRenderer.h"
 
 enum GameState {
 	GAME_ACTIVE,
@@ -18,18 +22,19 @@ enum GameState {
 class Game {
 public:
 	GameState state;
-	GLboolean keys[1024];
+	GLboolean keys[1024];	// A GLFW key table.
 	GLuint width, height;
+
 	std::vector<GameObject*> gameObjects;
-	SpriteRenderer *renderer;
+	SpriteRenderer *sRenderer;
+	TerrainRenderer *tRenderer;
 
 	Game(GLuint width, GLuint height);
 	~Game();
 
 	void init();
-	void addGameObject(glm::vec3 position);
+	void addGameObject(GameObject *go);
 
-	void processInput(GLfloat const dt);
 	void update(GLfloat const dt);
 	void render();
 

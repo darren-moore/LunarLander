@@ -7,7 +7,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Renderer.h"
 #include "SpriteRenderer.h"
+#include "TerrainRenderer.h"
 
 
 class GameObject {
@@ -16,9 +18,8 @@ public:
 	float rotation;
 	glm::vec2 size;
 	bool visible;
-	GameObject(SpriteRenderer *renderer, glm::vec2 position = glm::vec2(0.0));
-	SpriteRenderer *spriteRenderer;
-	bool destroyOnNextFrame;
+	GameObject(Renderer *renderer, glm::vec2 position = glm::vec2(0.0));
+	Renderer *renderer;
 
 	void draw();
 	virtual void update(GLfloat dt, GLboolean* keys) {}

@@ -4,30 +4,35 @@
 using namespace std;
 
 
-Game::Game(GLuint width, GLuint height) 
-		: state(GAME_ACTIVE), keys(), width(width), height(height){
+Game::Game(GLuint width, GLuint height) : state(GAME_ACTIVE), keys(), width(width), height(height){
+
 }
 Game::~Game() {
-	delete renderer;
+	for (auto &go : gameObjects) {
+		delete go;
+	}
+	gameObjects.clear();
+
+	delete sRenderer;
+	delete tRenderer;
 }
 
 void Game::init() {
 	Shader shader("vertShader.vert", "fragShader.frag");
-	renderer = new SpriteRenderer(shader);
+	sRenderer = new SpriteRenderer(shader);
+	tRenderer = new TerrainRenderer(shader);
 
-	gameObjects.push_back(new Lander(renderer, glm::vec3(0.0f, 0.0f, 0.0f)));
+	GameObject *lander = new Lander(sRenderer, glm::vec3(100.0f, 100.0f, 0.0f));
+	GameObject *terrain = new Terrain(tRenderer, glm::vec3(0.0f, 600.0f, 0.0f), 128, .6f);
+	terrain->size = glm::vec2(800.0f, 400.0f);
 
-
+	addGameObject(lander);
+	addGameObject(terrain);
 
 }
 
-void Game::addGameObject(glm::vec3 position) {
-	gameObjects.push_back(new GameObject(renderer, position));
-
-}
-
-void Game::processInput(GLfloat const dt) {
-
+void Game::addGameObject(GameObject *go) {
+	gameObjects.push_back(go);
 }
 
 void Game::update(GLfloat const dt) {

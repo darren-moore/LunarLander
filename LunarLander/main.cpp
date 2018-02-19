@@ -89,12 +89,12 @@ int main(){
 		GLfloat currentFrameTime = glfwGetTime();
 		dt = currentFrameTime - lastFrameTime;
 		lastFrameTime = currentFrameTime;
+
 		glfwPollEvents();
 
-		lunarLander.processInput(dt);
 		lunarLander.update(dt);
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		lunarLander.render();
 
@@ -102,7 +102,6 @@ int main(){
 		glfwPollEvents();
 	}
 
-	// All done.
 	glfwTerminate();
 	return 0;
 }
